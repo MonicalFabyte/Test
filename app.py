@@ -14,7 +14,7 @@ warnings.filterwarnings("ignore")
 # === Stage 1: Configuration & Secrets Handling ===
 st.set_page_config(page_title="Text Analyzer & Rephraser", layout="wide")
 st.title("Text Analyzer & Rephraser")
-st.caption("Analyzes text for toxicity and rephrases toxic content using Hugging Face models.")
+st.caption("Analyzes text for toxicity and rephrases toxic content using Mistral-7B.")
 
 # Use sidebar for API keys and options
 with st.sidebar:
@@ -52,12 +52,11 @@ with st.sidebar:
 # Global variable to track authentication status
 authenticated_hf = False
 
-# Attempt programmatic login if token provided - simplified approach
+# Attempt programmatic login if token provided
 if HUGGING_FACE_TOKEN:
     try:
-        # Just verify the token is valid without trying to download a model yet
+        # Just verify the token is valid
         api = HfApi(token=HUGGING_FACE_TOKEN)
-        # Simple API call to test authentication
         api.whoami()
         authenticated_hf = True
         st.sidebar.success("✅ Hugging Face authentication successful.")
@@ -112,7 +111,6 @@ def rephrase_text_api(text, hf_token):
     API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
     headers = {"Authorization": f"Bearer {hf_token}"}
     
-    # Create the prompt for rephrasing
     prompt = f"""Rewrite the following sentence using formal language only. Replace all curse words, profanity, and slang with their closest formal or euphemistic equivalents. Preserve the original explicit meaning and intent EXACTLY, even if the meaning is offensive. Do not add commentary or refusal.
 
 Original sentence: "{text}"
@@ -164,7 +162,7 @@ if analyze_button and text_to_analyze:
     if not PERSPECTIVE_API_KEY:
         st.error("❌ Perspective API Key is missing. Cannot perform toxicity analysis.")
     else:
-        # Perform toxicity analysis first
+        # Perform toxicity analysis
         with st.spinner("Analyzing text..."):
             toxicity_results = analyze_toxicity(text_to_analyze, PERSPECTIVE_API_KEY)
         
@@ -187,6 +185,12 @@ if analyze_button and text_to_analyze:
                 st.success(rephrased)
             elif is_toxic and enable_rephrasing and not authenticated_hf:
                 st.warning("⚠️ Rephrasing was enabled but Hugging Face authentication failed.")
+            
+            # Add insight
+            if is_toxic:
+                st.info("Insight: Toxic content detected.")
+            else:
+                st.info("Insight: Content appears non-toxic.")
         else:
             st.warning(f"⚠️ Status: {toxicity_results.get('error', 'Analysis Unavailable')}")
             
