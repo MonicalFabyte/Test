@@ -1,1 +1,8 @@
-
+streamlit
+pyngrok
+requests
+transformers
+torch
+accelerate
+bitsandbytes
+huggingface_hub
