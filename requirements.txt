@@ -1,8 +1,8 @@
-streamlit 
+streamlit
+torch
 pyngrok 
 requests 
 transformers 
-torch
 accelerate 
 bitsandbytes 
 huggingface_hub
