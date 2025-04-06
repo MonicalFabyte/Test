@@ -17,7 +17,7 @@ st.title("Text Analyzer & Rephraser")
 st.caption("Analyzes text for toxicity and rephrases toxic content using Mistral-7B.")
 
 # === 🔐 Hardcoded Hugging Face Token ===
-HUGGING_FACE_TOKEN = "hf_your_actual_token_here"  # <-- Replace this with your actual token
+HUGGING_FACE_TOKEN = "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"  # <-- Replace this with your actual token
 
 # Sidebar
 with st.sidebar:
