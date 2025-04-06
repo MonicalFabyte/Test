@@ -3,6 +3,11 @@ import requests
 from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
 import os
 
+from huggingface_hub import snapshot_download
+
+snapshot_download("mrm8488/t5-base-finetuned-sarcasm-twitter", local_dir="models/t5-sarcasm")
+
+
 # --- UI Setup ---
 st.set_page_config(page_title="Text Analyzer & Rephraser", layout="centered")
 st.title("Text Analyzer & Rephraser")
